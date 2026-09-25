@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Baqyla — платформа поведенческого наблюдения</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  --bg:#ffffff;
+  --bg-panel:#ffffff;
+  --blue:#7cc8ea;
+  --blue-deep:#1279a8;
+  --blue-ink:#1279a8;
+  --rose:#ffaec4;
+  --rose-deep:#e14d78;
+  --ink:#0e1012;
+  --ink-soft:#42484d;
+  --line:#e9e9e6;
+  --radius-s:10px;
+  --radius-m:18px;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+:root:not([data-theme="light"]){}
+html{scroll-padding-top:env(safe-area-inset-top,0px); scroll-behavior:smooth;}
+*{box-sizing:border-box;}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  line-height:1.55; -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif; font-weight:500; margin:0 0 .4em; letter-spacing:-.01em;}
+p{margin:0 0 1em; color:var(--ink-soft); max-width:62ch;}
+.wrap{max-width:900px; margin:0 auto; padding:0 24px;}
+section{padding:72px 0;}
+.center{text-align:center; margin:0 auto;}
+
+/* HERO */
+/* HEADER */
+.site-header{position:sticky; top:0; z-index:20; background:#fff; border-bottom:1px solid var(--line);
+  padding:calc(14px + env(safe-area-inset-top,0px)) 0 14px;}
+.site-header .wrap{display:flex; align-items:center; justify-content:space-between; gap:14px;}
+.brand{display:flex; align-items:center; gap:10px;}
+.brand-text strong{display:block; font-family:'Fraunces',serif; font-size:1.35rem; font-weight:600; line-height:1;}
+.brand-text span{display:block; font-size:.72rem; color:var(--ink-soft); margin-top:2px;}
+.header-right{display:flex; align-items:center; gap:10px;}
+.lang-pill{font-size:.85rem; color:var(--ink); border:1px solid var(--line); border-radius:999px; padding:7px 13px; background:#fff;}
+.icon-btn{width:38px; height:38px; border-radius:11px; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer;}
+.icon-btn.solid{background:var(--ink); color:#fff;}
+.icon-btn.outline{background:#fff; border:1px solid var(--line);}
+.nav-drop{display:none; position:absolute; right:24px; top:64px; background:#fff; border:1px solid var(--line); border-radius:var(--radius-s); padding:8px; box-shadow:0 16px 40px -20px rgba(0,0,0,.25); min-width:200px;}
+.nav-drop.open{display:block;}
+.nav-drop a{display:block; padding:10px 12px; border-radius:8px; color:var(--ink); text-decoration:none; font-size:.92rem;}
+.nav-drop a:hover{background:var(--bg);}
+
+/* HERO */
+.hero{padding:44px 0 56px;}
+.hero-text h1{font-size:clamp(2rem,7vw,2.9rem); line-height:1.12; margin:0 0 .5em; max-width:12ch;}
+.hero-highlight{font-size:1.15rem; color:var(--ink); max-width:none; margin:0 0 22px;}
+.hero-highlight mark{background:var(--blue); color:var(--ink); padding:2px 12px; border-radius:999px; font-weight:600; box-decoration-break:clone; -webkit-box-decoration-break:clone;}
+.hero-card{border:1.5px solid var(--rose-deep); background:var(--rose); background:color-mix(in srgb, var(--rose) 55%, #fff); border-radius:var(--radius-m); padding:20px 22px; margin-bottom:26px;}
+.hero-card strong{display:block; font-family:inherit; font-weight:600; color:var(--ink); margin-bottom:4px;}
+.hero-card p{margin:0; font-size:.92rem; color:var(--ink-soft);}
+.cta-big{display:inline-flex; align-items:center; gap:8px; font-size:1.05rem; padding:18px 30px; border-radius:999px;
+  background:linear-gradient(120deg, var(--blue), var(--rose)); color:var(--ink); font-weight:700;
+  box-shadow:0 16px 34px -18px rgba(79,127,158,.45);}
+.hero-illustration{margin-top:48px; display:flex; justify-content:center;}
+.blob{position:relative; width:220px; height:220px; border-radius:58% 42% 38% 62% / 55% 38% 62% 45%;
+  background:linear-gradient(150deg, var(--blue), var(--rose)); display:flex; align-items:center; justify-content:center;}
+.blob::after{content:''; position:absolute; bottom:-16px; width:70%; height:18px; background:rgba(0,0,0,.06); border-radius:50%; filter:blur(4px); z-index:-1;}
+.blob svg{width:64px; height:auto;}
+.tagline{color:var(--blue-ink); font-size:1.05rem; margin:0 auto 1.4em; font-weight:500;}
+.hero p.lead{margin:0 auto 2em; font-size:1.08rem;}
+.btn{
+  display:inline-block; border:none; cursor:pointer; text-decoration:none;
+  font-family:'Inter',sans-serif; font-weight:600; font-size:.98rem;
+  padding:14px 30px; border-radius:999px; background:var(--blue-deep); color:#fff;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.btn:hover{transform:translateY(-1px); box-shadow:0 6px 20px -8px var(--blue-deep);}
+.btn.rose{background:var(--rose-deep);}
+.btn.ghost{background:transparent; color:var(--blue-deep); border:1.5px solid var(--blue-deep); padding:12.5px 28px;}
+
+/* HOW IT WORKS */
+.steps{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:36px;}
+.step-card{background:var(--bg-panel); border:1px solid var(--line); border-radius:var(--radius-m); padding:26px 22px;}
+.step-num{font-family:'Fraunces',serif; font-size:1.6rem; color:var(--rose-deep); margin-bottom:8px;}
+.step-card:nth-child(2) .step-num{color:var(--blue-deep);}
+.step-card:nth-child(3) .step-num{color:var(--rose-deep);}
+.step-card h3{font-size:1.15rem;}
+.step-card p{font-size:.94rem; margin:0;}
+.flow-label{color:var(--ink-soft); font-size:.9rem; margin-top:14px;}
+
+/* APP CARD */
+.app-shell{background:var(--bg-panel); border:1px solid var(--line); border-radius:var(--radius-m); padding:36px; margin-top:10px; box-shadow:0 20px 50px -30px rgba(0,0,0,.25);}
+.app-progress{display:flex; gap:6px; margin-bottom:28px;}
+.app-progress span{flex:1; height:4px; border-radius:2px; background:var(--line);}
+.app-progress span.done{background:var(--blue-deep);}
+.app-view{display:none;}
+.app-view.active{display:block;}
+
+.sit-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:24px 0 30px;}
+.sit-card{border:1.5px solid var(--line); border-radius:var(--radius-s); padding:18px; cursor:pointer; background:var(--bg); transition:border-color .15s, background .15s;}
+.sit-card:hover{border-color:var(--blue-deep);}
+.sit-card.selected{border-color:var(--rose-deep); background:var(--rose);}
+.sit-card strong{display:block; font-size:.98rem; margin-bottom:4px;}
+.sit-card span{font-size:.86rem; color:var(--ink-soft);}
+
+.q-group{margin-bottom:26px;}
+.q-cat{font-size:.78rem; text-transform:none; color:var(--blue-ink); font-weight:600; margin-bottom:10px; letter-spacing:.01em;}
+.q-item{padding:16px 0; border-top:1px solid var(--line);}
+.q-item p{color:var(--ink); font-size:.98rem; margin:0 0 12px; max-width:none;}
+.scale{display:flex; gap:8px;}
+.scale label{flex:1; text-align:center; cursor:pointer;}
+.scale input{position:absolute; opacity:0; width:1px; height:1px;}
+.scale .dot{
+  display:flex; align-items:center; justify-content:center; height:40px; border-radius:10px;
+  border:1.5px solid var(--line); font-size:.9rem; color:var(--ink-soft); transition:.15s;
+}
+.scale input:checked + .dot{background:var(--blue-deep); border-color:var(--blue-deep); color:#fff;}
+.scale-legend{display:flex; justify-content:space-between; font-size:.72rem; color:var(--ink-soft); margin-top:6px;}
+.scale-legend-full{
+  display:flex; gap:8px; background:var(--bg); border:1px solid var(--line); border-radius:var(--radius-s);
+  padding:12px 4px; margin:16px 0 6px; position:sticky; top:70px; z-index:2;
+}
+.scale-legend-full span{
+  flex:1; display:flex; flex-direction:column; align-items:center; gap:2px;
+  font-size:.72rem; color:var(--ink-soft); text-align:center;
+}
+.scale-legend-full strong{
+  font-family:'Fraunces',serif; font-size:1rem; color:var(--blue-deep);
+}
+
+.result-row{margin-bottom:18px;}
+.result-head{display:flex; justify-content:space-between; font-size:.94rem; margin-bottom:6px;}
+.result-head strong{color:var(--ink); font-weight:600;}
+.bar-track{height:10px; border-radius:6px; background:var(--line); overflow:hidden;}
+.bar-fill{height:100%; border-radius:6px; background:linear-gradient(90deg, var(--blue-deep), var(--rose-deep));}
+.interp{background:var(--bg); border-left:3px solid var(--rose-deep); border-radius:0 var(--radius-s) var(--radius-s) 0; padding:12px 16px; margin-top:6px; font-size:.9rem; color:var(--ink-soft);}
+.note-box{margin-top:32px; background:var(--rose); border-radius:var(--radius-s); padding:20px 22px; font-size:.9rem; color:var(--ink);}
+.note-box strong{display:block; margin-bottom:6px; font-family:'Fraunces',serif; font-size:1.05rem;}
+
+.app-nav{display:flex; justify-content:space-between; margin-top:30px; gap:12px;}
+
+/* INFO GRIDS */
+.info-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:30px;}
+.info-card{border-radius:var(--radius-s); padding:22px; background:var(--bg-panel); border:1px solid var(--line);}
+.info-card:nth-child(4n+1){background:var(--blue); border-color:transparent;}
+.info-card:nth-child(4n+3){background:var(--rose); border-color:transparent;}
+.info-card h3{font-size:1.02rem; margin-bottom:6px;}
+.info-card p{font-size:.9rem; margin:0; color:var(--ink-soft); max-width:none;}
+
+section.alt{background:var(--bg-panel);}
+section.rose-band{background:var(--bg-panel);}
+
+.final{text-align:center; padding:96px 0; background:
+  radial-gradient(ellipse at 30% 100%, var(--blue) 0%, transparent 55%),
+  radial-gradient(ellipse at 75% 100%, var(--rose) 0%, transparent 55%);}
+.final h2{font-size:clamp(1.8rem,4vw,2.6rem);}
+footer{text-align:center; padding:30px 0 50px; color:var(--ink-soft); font-size:.85rem;}
+
+@media (max-width:640px){
+  .steps, .info-grid, .sit-grid{grid-template-columns:1fr;}
+  section{padding:52px 0;}
+  .app-shell{padding:24px 18px;}
+  .scale .dot{font-size:.8rem;}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand">
+      <svg width="34" height="21" viewBox="0 0 66 40" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="eyeGradNav" x1="0" y1="0" x2="66" y2="40" gradientUnits="userSpaceOnUse">
+            <stop offset="0" style="stop-color:var(--rose-deep)"/>
+            <stop offset="1" style="stop-color:var(--blue-deep)"/>
+          </linearGradient>
+        </defs>
+        <path d="M2 20C11 5 25 -1 33 -1C41 -1 55 5 64 20C55 35 41 41 33 41C25 41 11 35 2 20Z" fill="none" stroke="url(#eyeGradNav)" stroke-width="3" stroke-linejoin="round"/>
+        <circle cx="33" cy="20" r="9.5" fill="url(#eyeGradNav)" opacity=".92"/>
+        <circle cx="33" cy="20" r="3.6" fill="var(--ink)"/>
+      </svg>
+      <div class="brand-text">
+        <strong>Baqyla</strong>
+        <span>Платформа поведенческого наблюдения</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="lang-pill">RU ⌄</span>
+      <button class="icon-btn solid" aria-label="Открыть приложение" onclick="document.getElementById('app').scrollIntoView({behavior:'smooth'})">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+      </button>
+      <button class="icon-btn outline" aria-label="Меню" onclick="document.getElementById('navDrop').classList.toggle('open')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="nav-drop" id="navDrop">
+      <a href="#app">Начать наблюдение</a>
+      <a href="#about">О проекте</a>
+      <a href="#advantages">Преимущества</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-text">
+    <h1>Замечай и<br>понимай<br>поведение точнее</h1>
+    <p class="hero-highlight"><mark>10 вопросов</mark> помогают увидеть понятный поведенческий профиль.</p>
+    <div class="hero-card">
+      <strong>Это не тест и не диагноз.</strong>
+      <p>Здесь нет оценок «плохо» или «хорошо» — только структура, которая помогает заметить больше в наблюдаемом поведении.</p>
+    </div>
+    <a href="#app" class="btn cta-big">Начать наблюдение →</a>
+    <div class="hero-illustration">
+      <div class="blob">
+        <svg viewBox="0 0 66 40" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="eyeGradIll" x1="0" y1="0" x2="66" y2="40" gradientUnits="userSpaceOnUse">
+              <stop offset="0" style="stop-color:#fff" stop-opacity=".9"/>
+              <stop offset="1" style="stop-color:#fff" stop-opacity=".6"/>
+            </linearGradient>
+          </defs>
+          <path d="M2 20C11 5 25 -1 33 -1C41 -1 55 5 64 20C55 35 41 41 33 41C25 41 11 35 2 20Z" fill="none" stroke="url(#eyeGradIll)" stroke-width="2.4" stroke-linejoin="round"/>
+          <circle cx="33" cy="20" r="9.5" fill="var(--ink)" opacity=".85"/>
+          <circle cx="29.6" cy="16.6" r="1.7" fill="#fff" opacity=".9"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap center">
+    <h2>Поведение можно наблюдать.<br>Поведение можно анализировать.</h2>
+    <p class="center" style="margin:0 auto;">В повседневной жизни мы постоянно наблюдаем за поведением человека, но часто делаем выводы субъективно. Baqyla предлагает простой способ перейти от обычного наблюдения к структурированной оценке.</p>
+    <p class="flow-label center" style="margin-top:18px;">Наблюдай → Оценивай → Анализируй</p>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <h2>Как это работает</h2>
+    <div class="steps">
+      <div class="step-card"><div class="step-num">01</div><h3>Наблюдайте</h3><p>Выберите ситуацию, в которой происходит наблюдение: учёба, общение, групповая работа или выполнение задания.</p></div>
+      <div class="step-card"><div class="step-num">02</div><h3>Оценивайте</h3><p>Ответьте на вопросы о наблюдаемом поведении по шкале от 1 до 5.</p></div>
+      <div class="step-card"><div class="step-num">03</div><h3>Анализируйте</h3><p>Система формирует поведенческий профиль и показывает основные результаты.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="app">
+  <div class="wrap">
+    <h2 class="center" style="margin-bottom:28px;">Начать наблюдение</h2>
+    <div class="app-shell">
+      <div class="app-progress">
+        <span class="done" data-p="1"></span><span data-p="2"></span><span data-p="3"></span>
+      </div>
+
+      <div class="app-view active" id="view-1">
+        <h3>Выберите ситуацию наблюдения</h3>
+        <div class="sit-grid" id="sit-grid">
+          <div class="sit-card" data-v="Учебная деятельность"><strong>Учебная деятельность</strong><span>Наблюдение во время выполнения учебных заданий.</span></div>
+          <div class="sit-card" data-v="Общение"><strong>Общение</strong><span>Наблюдение за взаимодействием и коммуникацией.</span></div>
+          <div class="sit-card" data-v="Групповая работа"><strong>Групповая работа</strong><span>Наблюдение во время совместной деятельности.</span></div>
+          <div class="sit-card" data-v="Выполнение задания"><strong>Выполнение задания</strong><span>Внимание, организованность и реакции при задаче.</span></div>
+          <div class="sit-card" data-v="Свободное взаимодействие"><strong>Свободное взаимодействие</strong><span>Наблюдение за естественным поведением.</span></div>
+        </div>
+        <div class="app-nav"><span></span><button class="btn" id="to-2" disabled>Продолжить</button></div>
+      </div>
+
+      <div class="app-view" id="view-2">
+        <h3>Оцените наблюдаемое поведение</h3>
+        <p style="font-size:.9rem;">Пожалуйста, оценивайте только то поведение, которое действительно наблюдалось.</p>
+        <div class="scale-legend-full">
+          <span><strong>1</strong>никогда</span>
+          <span><strong>2</strong>редко</span>
+          <span><strong>3</strong>иногда</span>
+          <span><strong>4</strong>часто</span>
+          <span><strong>5</strong>всегда</span>
+        </div>
+        <div id="q-container"></div>
+        <div class="scale-legend"><span>1 — никогда</span><span>5 — всегда</span></div>
+        <div class="app-nav"><button class="btn ghost" id="to-1">Назад</button><button class="btn rose" id="to-3" disabled>Получить результат</button></div>
+      </div>
+
+      <div class="app-view" id="view-3">
+        <h3>Ваш поведенческий профиль</h3>
+        <p style="font-size:.9rem;">Результат показывает выраженность наблюдаемых поведенческих проявлений по основным направлениям — ситуация: <strong id="sit-echo" style="color:var(--ink);"></strong></p>
+        <div id="results"></div>
+        <div class="note-box">
+          <strong>Важное замечание</strong>
+          Результат не является диагнозом. Baqyla предназначен для учебного и исследовательского использования. Показатели отражают только наблюдаемое поведение в конкретной ситуации и не могут использоваться для постановки психологического или медицинского диагноза. Для профессиональной диагностики необходима консультация специалиста.
+        </div>
+        <div class="app-nav"><button class="btn ghost" id="to-2b">Назад</button><button class="btn" id="restart">Начать новое наблюдение</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="about">
+  <div class="wrap">
+    <h2>Что такое Baqyla?</h2>
+    <p>Baqyla — цифровой учебный инструмент, созданный для систематизации поведенческого наблюдения. Проект объединяет три этапа: наблюдение, оценку и анализ. Вместо субъективного описания поведения пользователь получает конкретные критерии и единую шкалу оценки.</p>
+    <h3 style="margin-top:40px; font-size:1.2rem;">Для кого предназначен Baqyla?</h3>
+    <div class="info-grid">
+      <div class="info-card"><h3>Для студентов</h3><p>Для выполнения учебных и исследовательских заданий по психологии.</p></div>
+      <div class="info-card"><h3>Для психологов</h3><p>Как вспомогательный инструмент для структурирования наблюдения.</p></div>
+      <div class="info-card"><h3>Для преподавателей</h3><p>Для наблюдения за поведением студентов и организации исследований.</p></div>
+      <div class="info-card"><h3>Для исследователей</h3><p>Для систематизации наблюдаемых поведенческих показателей.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="rose-band" id="advantages">
+  <div class="wrap">
+    <h2>Преимущества</h2>
+    <div class="info-grid">
+      <div class="info-card"><h3>Простота</h3><p>Не требует регистрации и сложного обучения.</p></div>
+      <div class="info-card"><h3>Структурированность</h3><p>Поведение оценивается по заранее определённым критериям.</p></div>
+      <div class="info-card"><h3>Наглядность</h3><p>Результат отображается в виде понятного визуального профиля.</p></div>
+      <div class="info-card"><h3>Объективизация</h3><p>Единая шкала помогает уменьшить произвольность описания.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="final">
+  <div class="wrap">
+    <h2>Замечай больше.<br>Понимай глубже.</h2>
+    <p class="center" style="margin:14px auto 26px;">Baqyla — замечай, понимай, анализируй.</p>
+    <a href="#app" class="btn rose">Начать новое наблюдение</a>
+  </div>
+</div>
+
+<footer>Baqyla — учебная платформа для поведенческого наблюдения</footer>
+
+<script>
+const QUESTIONS = [
+  {cat:"Коммуникация", text:"Самостоятельно инициирует общение с другими людьми."},
+  {cat:"Коммуникация", text:"Поддерживает разговор и реагирует на слова собеседника."},
+  {cat:"Социальная активность", text:"Проявляет инициативу во время совместной деятельности."},
+  {cat:"Социальная активность", text:"Принимает участие в групповой работе."},
+  {cat:"Внимание", text:"Сохраняет внимание во время выполнения задания."},
+  {cat:"Внимание", text:"Следует инструкции и выполняет поставленную задачу."},
+  {cat:"Эмоциональные реакции", text:"Спокойно реагирует на замечания или исправления."},
+  {cat:"Эмоциональные реакции", text:"Сохраняет контроль поведения при возникновении трудностей."},
+  {cat:"Сотрудничество", text:"Учитывает мнение других участников."},
+  {cat:"Сотрудничество", text:"Сотрудничает с другими для достижения общей цели."},
+];
+const CATS = ["Коммуникация","Социальная активность","Внимание","Эмоциональные реакции","Сотрудничество"];
+const LEVELS = [
+  {min:4.3, label:"высокий"},
+  {min:3.5, label:"средне-высокий"},
+  {min:2.5, label:"средний"},
+  {min:1.5, label:"средне-низкий"},
+  {min:0,   label:"низкий"}
+];
+const PHRASES = {
+  "Коммуникация":{high:"человек активно вступал во взаимодействие и поддерживал коммуникацию.",mid:"коммуникация проявлялась периодически, без выраженной инициативы.",low:"инициатива в общении наблюдалась редко."},
+  "Социальная активность":{high:"наблюдалось активное участие в совместной деятельности.",mid:"участие в совместной деятельности было умеренным.",low:"участие в совместной деятельности было ограниченным."},
+  "Внимание":{high:"человек преимущественно сохранял внимание и следовал инструкции.",mid:"внимание удерживалось непостоянно.",low:"удержание внимания вызывало заметные трудности."},
+  "Эмоциональные реакции":{high:"эмоциональные реакции были устойчивыми и контролируемыми.",mid:"в отдельных ситуациях наблюдались изменения эмоциональных реакций.",low:"часто наблюдались сложности с контролем эмоциональных реакций."},
+  "Сотрудничество":{high:"часто проявлялись готовность взаимодействовать и учитывать мнение других.",mid:"готовность к сотрудничеству проявлялась ситуативно.",low:"сотрудничество с другими наблюдалось редко."}
+};
+function phraseFor(cat, level){
+  if(level==="высокий") return PHRASES[cat].high;
+  if(level==="средне-высокий" || level==="средний") return PHRASES[cat].mid;
+  return PHRASES[cat].low;
+}
+let state = {situation:null, answers:{}};
+
+const grid = document.getElementById('sit-grid');
+grid.addEventListener('click', e=>{
+  const card = e.target.closest('.sit-card'); if(!card) return;
+  [...grid.children].forEach(c=>c.classList.remove('selected'));
+  card.classList.add('selected');
+  state.situation = card.dataset.v;
+  document.getElementById('to-2').disabled = false;
+});
+
+const qc = document.getElementById('q-container');
+const SCALE_WORDS = ['никогда','редко','иногда','часто','всегда'];
+let html = ''; let lastCat = '';
+QUESTIONS.forEach((q,i)=>{
+  if(q.cat !== lastCat){ if(lastCat) html+='</div>'; html += `<div class="q-group"><div class="q-cat">${q.cat}</div>`; lastCat=q.cat; }
+  html += `<div class="q-item"><p>${i+1}. ${q.text}</p><div class="scale">`;
+  for(let v=1; v<=5; v++){
+    html += `<label title="${v} — ${SCALE_WORDS[v-1]}"><input type="radio" name="q${i}" value="${v}" onchange="onAnswer(${i},${v})"><div class="dot">${v}</div></label>`;
+  }
+  html += `</div></div>`;
+});
+html += '</div>';
+qc.innerHTML = html;
+
+function onAnswer(i,v){
+  state.answers[i]=v;
+  document.getElementById('to-3').disabled = Object.keys(state.answers).length < QUESTIONS.length;
+}
+
+function showView(n){
+  document.querySelectorAll('.app-view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+n).classList.add('active');
+  document.querySelectorAll('.app-progress span').forEach(s=>{
+    s.classList.toggle('done', parseInt(s.dataset.p) <= n);
+  });
+}
+document.getElementById('to-2').onclick = ()=>showView(2);
+document.getElementById('to-1').onclick = ()=>showView(1);
+document.getElementById('to-2b').onclick = ()=>showView(2);
+document.getElementById('to-3').onclick = ()=>{ renderResults(); showView(3); };
+document.getElementById('restart').onclick = ()=>{
+  state = {situation:null, answers:{}};
+  [...grid.children].forEach(c=>c.classList.remove('selected'));
+  document.querySelectorAll('input[type=radio]').forEach(r=>r.checked=false);
+  document.getElementById('to-2').disabled = true;
+  document.getElementById('to-3').disabled = true;
+  showView(1);
+  document.getElementById('app').scrollIntoView({behavior:'smooth'});
+};
+
+function renderResults(){
+  document.getElementById('sit-echo').textContent = state.situation || '—';
+  const el = document.getElementById('results');
+  let out = '';
+  CATS.forEach((cat,ci)=>{
+    const i1 = ci*2, i2 = ci*2+1;
+    const avg = ((state.answers[i1]||0) + (state.answers[i2]||0)) / 2;
+    const level = LEVELS.find(l=>avg>=l.min).label;
+    out += `<div class="result-row">
+      <div class="result-head"><span>${cat}</span><strong>${avg.toFixed(1)} / 5</strong></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${avg/5*100}%"></div></div>
+      <div class="interp"><strong style="color:var(--ink); font-weight:600;">${level}.</strong> В процессе наблюдения ${phraseFor(cat, level)}</div>
+    </div>`;
+  });
+  el.innerHTML = out;
+}
+</script>
+</body>
+</html>
